@@ -1,0 +1,26 @@
+# Archivos generados por Maven
+target/
+
+# Archivos de Visual Studio Code
+.vscode/
+
+# Archivos de IntelliJ IDEA
+.idea/
+*.iml
+
+# Archivos compilados de Java
+*.class
+
+# Archivos de paquetes
+*.jar
+*.war
+*.ear
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
