@@ -1,10 +1,10 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class U4_06_ConsumerSupplierFunction {
+public class U3_06_ConsumerSupplierFunction {
 
     public static void main(String[] args) {
 

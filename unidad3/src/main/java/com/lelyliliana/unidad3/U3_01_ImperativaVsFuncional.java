@@ -1,8 +1,8 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
 import java.util.Arrays;
 
-public class U4_01_ImperativaVsFuncional {
+public class U3_01_ImperativaVsFuncional {
 
     public static void main(String[] args) {
 

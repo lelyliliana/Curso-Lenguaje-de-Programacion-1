@@ -1,6 +1,6 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
-public class U4_02_FuncionPura {
+public class U3_02_FuncionPura {
 
     public static void main(String[] args) {
 

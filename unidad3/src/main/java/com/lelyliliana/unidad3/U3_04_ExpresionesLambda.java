@@ -1,4 +1,4 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
 @FunctionalInterface
 interface Mensaje {
@@ -15,7 +15,7 @@ interface Suma {
     int calcular(int numero1, int numero2);
 }
 
-public class U4_04_ExpresionesLambda {
+public class U3_04_ExpresionesLambda {
 
     public static void main(String[] args) {
 

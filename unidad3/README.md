@@ -1,4 +1,4 @@
-# Unidad 4 - Programación funcional en Java
+# Unidad 3 - Programación funcional en Java
 
 Esta unidad presenta los fundamentos de la programación funcional en Java mediante ejemplos sencillos y progresivos.
 
@@ -26,7 +26,7 @@ Los ejemplos permiten comparar el enfoque imperativo con el funcional y aplicar 
 ## Estructura del proyecto
 
 ```text
-unidad4/
+unidad3/
 ├── pom.xml
 ├── README.md
 └── src/
@@ -34,20 +34,20 @@ unidad4/
         └── java/
             └── com/
                 └── lelyliliana/
-                    └── unidad4/
+                    └── unidad3/
                         ├── Estudiante.java
-                        ├── U4_01_ImperativaVsFuncional.java
-                        ├── U4_02_FuncionPura.java
-                        ├── U4_03_InterfazFuncional.java
-                        ├── U4_04_ExpresionesLambda.java
-                        ├── U4_05_Predicate.java
-                        ├── U4_06_ConsumerSupplierFunction.java
-                        ├── U4_07_ReferenciaMetodos.java
-                        ├── U4_08_StreamFilterMap.java
-                        ├── U4_09_StreamReduce.java
-                        ├── U4_10_StreamSortedDistinct.java
-                        ├── U4_11_StreamObjetos.java
-                        └── U4_12_IntegradorFuncional.java
+                        ├── U3_01_ImperativaVsFuncional.java
+                        ├── U3_02_FuncionPura.java
+                        ├── U3_03_InterfazFuncional.java
+                        ├── U3_04_ExpresionesLambda.java
+                        ├── U3_05_Predicate.java
+                        ├── U3_06_ConsumerSupplierFunction.java
+                        ├── U3_07_ReferenciaMetodos.java
+                        ├── U3_08_StreamFilterMap.java
+                        ├── U3_09_StreamReduce.java
+                        ├── U3_10_StreamSortedDistinct.java
+                        ├── U3_11_StreamObjetos.java
+                        └── U3_12_IntegradorFuncional.java
 ```
 
 ## Compilación del proyecto
@@ -55,7 +55,7 @@ unidad4/
 Desde la carpeta raíz del repositorio:
 
 ```bash
-mvn -f unidad4/pom.xml compile
+mvn -f unidad3/pom.xml compile
 ```
 
 ---
@@ -65,7 +65,7 @@ mvn -f unidad4/pom.xml compile
 Archivo:
 
 ```text
-U4_01_ImperativaVsFuncional.java
+U3_01_ImperativaVsFuncional.java
 ```
 
 Este ejemplo calcula el valor mínimo de un arreglo mediante dos enfoques.
@@ -85,7 +85,7 @@ La solución funcional expresa directamente qué resultado se desea obtener.
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_01_ImperativaVsFuncional
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_01_ImperativaVsFuncional
 ```
 
 ### Salida esperada
@@ -107,7 +107,7 @@ El número menor es: 2
 Archivo:
 
 ```text
-U4_02_FuncionPura.java
+U3_02_FuncionPura.java
 ```
 
 Este ejemplo presenta una función pura mediante el método:
@@ -128,7 +128,7 @@ En el ejemplo, el valor `6` se envía dos veces al método y en ambos casos se o
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_02_FuncionPura
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_02_FuncionPura
 ```
 
 ### Salida esperada
@@ -148,7 +148,7 @@ Segundo resultado: 36
 Archivo:
 
 ```text
-U4_03_InterfazFuncional.java
+U3_03_InterfazFuncional.java
 ```
 
 Este ejemplo presenta una interfaz funcional llamada `OperacionMatematica`.
@@ -176,7 +176,7 @@ OperacionMatematica duplicar = numero -> numero * 2;
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_03_InterfazFuncional
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_03_InterfazFuncional
 ```
 
 ### Salida esperada
@@ -195,7 +195,7 @@ Resultado al duplicar: 14
 Archivo:
 
 ```text
-U4_04_ExpresionesLambda.java
+U3_04_ExpresionesLambda.java
 ```
 
 Este ejemplo presenta expresiones lambda con diferentes cantidades de parámetros.
@@ -224,7 +224,7 @@ Suma suma = (numero1, numero2) ->
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_04_ExpresionesLambda
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_04_ExpresionesLambda
 ```
 
 ### Salida esperada
@@ -244,7 +244,7 @@ Resultado de la suma: 13
 Archivo:
 
 ```text
-U4_05_Predicate.java
+U3_05_Predicate.java
 ```
 
 Este ejemplo utiliza la interfaz funcional `Predicate<T>`.
@@ -272,7 +272,7 @@ numeros.stream()
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_05_Predicate
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_05_Predicate
 ```
 
 ### Salida esperada
@@ -299,7 +299,7 @@ Números mayores que 10:
 Archivo:
 
 ```text
-U4_06_ConsumerSupplierFunction.java
+U3_06_ConsumerSupplierFunction.java
 ```
 
 Este ejemplo utiliza tres interfaces funcionales incluidas en el paquete `java.util.function`.
@@ -352,7 +352,7 @@ calcularCuadrado.apply(numero);
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_06_ConsumerSupplierFunction
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_06_ConsumerSupplierFunction
 ```
 
 ### Salida esperada
@@ -373,7 +373,7 @@ Cuadrado del número: 25
 Archivo:
 
 ```text
-U4_07_ReferenciaMetodos.java
+U3_07_ReferenciaMetodos.java
 ```
 
 Este ejemplo presenta el uso del operador `::` para crear referencias a métodos.
@@ -403,7 +403,7 @@ Function<String, String> convertirMayusculas =
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_07_ReferenciaMetodos
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_07_ReferenciaMetodos
 ```
 
 ### Salida esperada
@@ -437,7 +437,7 @@ JUAN
 Archivo:
 
 ```text
-U4_08_StreamFilterMap.java
+U3_08_StreamFilterMap.java
 ```
 
 Este ejemplo presenta dos operaciones intermedias de Stream API.
@@ -465,7 +465,7 @@ numeros.stream()
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_08_StreamFilterMap
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_08_StreamFilterMap
 ```
 
 ### Salida esperada
@@ -502,7 +502,7 @@ Cuadrado de los números pares:
 Archivo:
 
 ```text
-U4_09_StreamReduce.java
+U3_09_StreamReduce.java
 ```
 
 Este ejemplo utiliza la operación `reduce()` para combinar todos los elementos de un flujo y producir un único resultado.
@@ -538,7 +538,7 @@ int producto = numeros.stream()
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_09_StreamReduce
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_09_StreamReduce
 ```
 
 ### Salida esperada
@@ -558,7 +558,7 @@ Producto de los números: 3840
 Archivo:
 
 ```text
-U4_10_StreamSortedDistinct.java
+U3_10_StreamSortedDistinct.java
 ```
 
 Este ejemplo utiliza las operaciones:
@@ -596,7 +596,7 @@ numeros.stream()
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_10_StreamSortedDistinct
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_10_StreamSortedDistinct
 ```
 
 ### Salida esperada
@@ -682,7 +682,7 @@ Esta clase no contiene el método `main`, porque funciona como modelo de datos p
 Archivo:
 
 ```text
-U4_11_StreamObjetos.java
+U3_11_StreamObjetos.java
 ```
 
 Este ejemplo utiliza Stream API para procesar una colección de objetos de tipo `Estudiante`.
@@ -734,7 +734,7 @@ estudiantes.stream()
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_11_StreamObjetos
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_11_StreamObjetos
 ```
 
 ### Salida esperada
@@ -781,7 +781,7 @@ Laura
 Archivo:
 
 ```text
-U4_12_IntegradorFuncional.java
+U3_12_IntegradorFuncional.java
 ```
 
 Este ejemplo combina diferentes elementos de programación funcional:
@@ -864,7 +864,7 @@ double promedio = cantidadAprobados > 0
 ### Ejecución
 
 ```bash
-java -cp unidad4/target/classes com.lelyliliana.unidad4.U4_12_IntegradorFuncional
+java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_12_IntegradorFuncional
 ```
 
 ### Salida esperada

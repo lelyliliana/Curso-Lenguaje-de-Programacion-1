@@ -1,11 +1,11 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class U4_12_IntegradorFuncional {
+public class U3_12_IntegradorFuncional {
 
     public static void main(String[] args) {
 

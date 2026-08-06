@@ -1,4 +1,4 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
 @FunctionalInterface
 interface OperacionMatematica {
@@ -6,7 +6,7 @@ interface OperacionMatematica {
     int calcular(int numero);
 }
 
-public class U4_03_InterfazFuncional {
+public class U3_03_InterfazFuncional {
 
     public static void main(String[] args) {
 

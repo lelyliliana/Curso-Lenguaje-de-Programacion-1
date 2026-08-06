@@ -1,9 +1,9 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-public class U4_05_Predicate {
+public class U3_05_Predicate {
 
     public static void main(String[] args) {
 

@@ -1,9 +1,9 @@
-package com.lelyliliana.unidad4;
+package com.lelyliliana.unidad3;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class U4_11_StreamObjetos {
+public class U3_11_StreamObjetos {
 
     public static void main(String[] args) {
 
