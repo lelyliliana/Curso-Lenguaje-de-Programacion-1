@@ -1,459 +1,144 @@
-# Curso Lenguaje de Programación I
+# Lenguaje de Programación I
 
-Repositorio de ejemplos prácticos del curso **Lenguaje de Programación I**, desarrollado en Java 21 y organizado como un proyecto Maven multimódulo.
-
-El repositorio reúne ejemplos progresivos de las tres unidades del curso:
-
-1. Concurrencia.
-2. Concurrencia y Network.
-3. Programación funcional.
-
-La organización sigue los temas planteados en el módulo del curso, pero los ejemplos fueron actualizados y reorganizados para trabajar con código más limpio, compilable y compatible con Java 21. :contentReference[oaicite:0]{index=0}
-
----
+Repositorio de ejemplos prácticos del curso **Lenguaje de Programación I**, desarrollado con **Java 21 y Maven** y organizado progresivamente en tres unidades: concurrencia, comunicación en red y programación funcional.
 
 ## Objetivo del repositorio
 
-Este repositorio tiene como propósito servir como material de apoyo para el estudio y práctica de los principales conceptos del curso.
+Complementar el curso mediante ejemplos pequeños, progresivos, ejecutables, modificables y documentados, orientados a observar el comportamiento real de los conceptos estudiados. Cada ejemplo permite leer el código, ejecutarlo, modificar parámetros y comparar resultados.
 
-Cada unidad contiene ejemplos independientes que permiten:
+## Tecnologías principales
 
-- Revisar un concepto específico.
-- Ejecutar el código.
-- Comparar resultados.
-- Modificar parámetros.
-- Analizar el comportamiento de las aplicaciones.
+- Java 21 y Maven.
+- Java Threads: `Thread` y `Runnable`.
+- `java.util.concurrent.locks`: `Lock` y `ReentrantLock`.
+- `java.net`: direcciones, URL y sockets TCP y UDP.
+- Java Serialization: `Serializable` y flujos de objetos de `java.io`.
+- Java RMI.
+- Interfaces funcionales, expresiones lambda y referencias a métodos.
+- `java.util.function` y Stream API.
 
----
+No se requieren frameworks ni bibliotecas externas para los ejemplos.
 
-# Estructura general
+## Organización del repositorio
 
 ```text
 Curso-Lenguaje-de-Programacion-1/
-├── pom.xml
 ├── README.md
-├── .gitignore
-│
+├── pom.xml
 ├── unidad1/
-│   ├── pom.xml
-│   ├── README.md
-│   └── src/main/java/com/lelyliliana/unidad1/
-│
 ├── unidad2/
-│   ├── pom.xml
-│   ├── README.md
-│   └── src/main/java/com/lelyliliana/unidad2/
-│
 └── unidad3/
-    ├── pom.xml
-    ├── README.md
-    └── src/main/java/com/lelyliliana/unidad3/
 ```
 
----
+Cada unidad contiene su `pom.xml`, un `README.md` como índice, 12 ejemplos numerados en `src/main/java/com/lelyliliana/unidadX/` y sus guías en `docs/ejemploXX/README.md`. La Unidad 3 incluye además la clase de apoyo `Estudiante`.
 
-# Unidad 1 - Concurrencia
+La documentación se mantiene en una estructura paralela a los archivos Java para conservar sus paquetes y la secuencia pedagógica.
 
-Esta unidad introduce la programación concurrente en Java.
+## Unidades
 
-Se trabajan conceptos relacionados con:
+### [Unidad 1 – Concurrencia](unidad1/README.md)
 
-- Procesos e hilos.
-- Clase `Thread`.
-- Interfaz `Runnable`.
-- `start()` y `run()`.
-- `sleep()`.
-- `join()`.
-- Estados del ciclo de vida de un hilo.
-- Condiciones de carrera.
-- Secciones críticas.
-- Exclusión mutua.
-- Métodos y bloques `synchronized`.
-- `wait()`.
-- `notifyAll()`.
-- `ReentrantLock`.
+Procesos e hilos, `Thread` y `Runnable`, diferencias entre `start()` y `run()`, `sleep()`, `join()`, estados de un hilo, condiciones de carrera, secciones críticas, exclusión mutua, `synchronized`, `wait()`, `notifyAll()` y `ReentrantLock`. Cierra con una cuenta bancaria compartida por dos clientes.
 
-La unidad termina con un ejercicio integrador basado en una cuenta bancaria compartida.
+### [Unidad 2 – Concurrencia y Network](unidad2/README.md)
 
-## Ejemplos
+Host, IP, URL, puertos, sockets, arquitectura cliente-servidor, TCP, UDP, atención multicliente, serialización, envío de objetos y RMI. Integra concurrencia y comunicación en red mediante hilos que procesan solicitudes.
 
-```text
-U1_01_HiloBasico.java
-U1_02_ThreadVsRunnable.java
-U1_03_StartVsRun.java
-U1_04_Sleep.java
-U1_05_Join.java
-U1_06_EstadosHilo.java
-U1_07_CondicionCarrera.java
-U1_08_SynchronizedMetodo.java
-U1_09_SynchronizedBloque.java
-U1_10_WaitNotify.java
-U1_11_ReentrantLock.java
-U1_12_IntegradorConcurrencia.java
-```
+### [Unidad 3 – Programación funcional](unidad3/README.md)
 
-Documentación completa:
+Enfoques imperativo y funcional, funciones puras, interfaces funcionales, lambdas, `Predicate`, `Consumer`, `Supplier`, `Function`, referencias a métodos y Stream API (`filter`, `map`, `reduce`, `sorted`, `distinct`). Cierra con consultas y agregaciones sobre objetos `Estudiante`.
 
-```text
-unidad1/README.md
-```
+## Requisitos
 
----
+- Java **JDK 21**.
+- Apache Maven, utilizando ese JDK.
+- Un editor o IDE compatible con Java es opcional.
+- Para las demostraciones de red: comunicación local habilitada y puertos disponibles. No requieren servicios externos; el ejemplo de URL solo analiza una dirección.
 
-# Unidad 2 - Concurrencia y Network
-
-Esta unidad desarrolla los fundamentos de comunicación en red con Java.
-
-Se trabajan conceptos como:
-
-- Host.
-- Dirección IP.
-- URL.
-- Puerto.
-- Socket.
-- Cliente-servidor.
-- TCP.
-- UDP.
-- Servidores multicliente.
-- Serialización de objetos.
-- Envío de objetos por red.
-- RMI.
-
-También se integran conceptos de concurrencia mediante servidores que atienden diferentes clientes en hilos independientes.
-
-## Ejemplos
-
-```text
-U2_01_InetAddress.java
-U2_02_URL.java
-U2_03_TCP_ServidorEco.java
-U2_04_TCP_ClienteEco.java
-U2_05_TCP_Bidireccional.java
-U2_06_TCP_Multicliente.java
-U2_07_UDP_Servidor.java
-U2_08_UDP_Cliente.java
-U2_09_Serializacion.java
-U2_10_EnvioObjetosTCP.java
-U2_11_RMI.java
-U2_12_IntegradorRedes.java
-```
-
-Documentación completa:
-
-```text
-unidad2/README.md
-```
-
----
-
-# Unidad 3 - Programación funcional
-
-Esta unidad introduce los principales elementos de programación funcional disponibles en Java.
-
-Se trabajan conceptos relacionados con:
-
-- Programación imperativa y funcional.
-- Funciones puras.
-- Interfaces funcionales.
-- Expresiones lambda.
-- `Predicate`.
-- `Consumer`.
-- `Supplier`.
-- `Function`.
-- Referencias a métodos.
-- Stream API.
-- `filter()`.
-- `map()`.
-- `reduce()`.
-- `sorted()`.
-- `distinct()`.
-- Procesamiento de colecciones de objetos.
-
-La unidad termina con un ejercicio integrador que combina varias interfaces funcionales y operaciones de Stream API.
-
-## Ejemplos
-
-```text
-U3_01_ImperativaVsFuncional.java
-U3_02_FuncionPura.java
-U3_03_InterfazFuncional.java
-U3_04_ExpresionesLambda.java
-U3_05_Predicate.java
-U3_06_ConsumerSupplierFunction.java
-U3_07_ReferenciaMetodos.java
-U3_08_StreamFilterMap.java
-U3_09_StreamReduce.java
-U3_10_StreamSortedDistinct.java
-U3_11_StreamObjetos.java
-U3_12_IntegradorFuncional.java
-```
-
-Clase de apoyo:
-
-```text
-Estudiante.java
-```
-
-Documentación completa:
-
-```text
-unidad3/README.md
-```
-
----
-
-# Requisitos
-
-Para ejecutar los ejemplos se recomienda disponer de:
-
-- Java JDK 21.
-- Apache Maven.
-- Visual Studio Code, IntelliJ IDEA, Eclipse o cualquier IDE compatible con Java.
-
-Verificar Java:
+Verifica la instalación:
 
 ```bash
 java -version
-```
-
-Verificar Maven:
-
-```bash
 mvn -version
 ```
 
----
+La primera compilación puede necesitar conexión para descargar los complementos de Maven.
 
-# Compilar todo el proyecto
+## Compilación
 
-Desde la raíz del repositorio:
+Todos los comandos de esta documentación parten de la **raíz del repositorio**.
+
+Para compilar los tres módulos:
 
 ```bash
 mvn compile
 ```
 
-Maven compilará las tres unidades:
-
-```text
-unidad1
-unidad2
-unidad3
-```
-
-Si todo está correctamente configurado debe finalizar con:
-
-```text
-BUILD SUCCESS
-```
-
----
-
-# Compilar una sola unidad
-
-## Unidad 1
+Para compilar una unidad:
 
 ```bash
 mvn -pl unidad1 compile
-```
-
-## Unidad 2
-
-```bash
 mvn -pl unidad2 compile
-```
-
-## Unidad 3
-
-```bash
 mvn -pl unidad3 compile
 ```
 
----
+También puedes seleccionar su POM directamente, por ejemplo `mvn -f unidad1/pom.xml compile`.
 
-# Ejecutar un ejemplo
+El POM raíz tiene empaquetado `pom` y agrega los tres módulos. Cada módulo configura Java 21 en su propio POM, sin heredar del POM raíz ni depender de los otros módulos. La compilación genera clases en `unidadX/target/classes` y debe finalizar con `BUILD SUCCESS`.
 
-Después de compilar, puede ejecutarse una clase indicando su módulo y paquete.
+## Ejecución
 
-Por ejemplo:
+Después de compilar, indica el directorio de clases y el nombre completo de la clase:
 
 ```bash
 java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_01_HiloBasico
 ```
 
-Otro ejemplo:
+También puedes ejecutar el método `main` desde el IDE. Los índices de unidad enlazan cada guía, con su comando concreto, resultado esperado y aspectos que observar. `Estudiante.java` es una clase de apoyo y no se ejecuta directamente.
 
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_01_InetAddress
-```
-
-Y para programación funcional:
-
-```bash
-java -cp unidad3/target/classes com.lelyliliana.unidad3.U3_01_ImperativaVsFuncional
-```
-
-También pueden ejecutarse directamente desde el IDE mediante la opción `Run` disponible sobre el método `main`.
-
----
-
-# Consideraciones sobre concurrencia
-
-Los programas concurrentes pueden producir salidas diferentes entre ejecuciones.
-
-Esto ocurre porque la planificación de los hilos depende de la JVM y del sistema operativo.
-
-Por esta razón, ejemplos como:
+## Forma recomendada de estudio
 
 ```text
-U1_07_CondicionCarrera.java
+Unidad 1: Concurrencia
+↓
+Unidad 2: Comunicación en red
+↓
+Unidad 3: Programación funcional
 ```
 
-pueden producir diferentes resultados.
+Sigue la numeración del 01 al 12 dentro de cada unidad. Lee el objetivo y el código, ejecuta el ejemplo, compara su salida y prueba las modificaciones pequeñas sugeridas. Cada guía permite regresar a su unidad o continuar con el ejemplo siguiente.
 
-Esto forma parte del comportamiento que se desea observar.
+## Consideraciones especiales
 
----
+- **Concurrencia:** el orden de los mensajes puede variar según la planificación de la JVM y el sistema operativo. En el ejemplo de condición de carrera también puede variar el total; no implica que concurrencia sea necesariamente ejecución simultánea.
+- **Servidor y cliente separados:** inicia primero el servidor TCP 03 y luego el cliente 04, o el servidor UDP 07 y después el cliente 08, en dos terminales. Atienden un intercambio y terminan. Otros ejemplos crean servidor y clientes en una sola ejecución; consulta su guía.
+- **TCP y UDP:** TCP proporciona un flujo ordenado con mecanismos de retransmisión, pero las conexiones pueden fallar. UDP no garantiza entrega ni orden; estos ejemplos no configuran timeout ni reintentos. Si una ejecución queda esperando, usa `Ctrl+C`.
+- **Archivos:** el ejemplo de serialización crea o sobrescribe `estudiante.dat` en el directorio de ejecución.
 
-# Consideraciones sobre comunicación en red
-
-En algunos ejemplos existen dos programas independientes: servidor y cliente.
-
-Debe ejecutarse primero el servidor.
-
-Por ejemplo:
-
-```text
-U2_03_TCP_ServidorEco.java
-```
-
-y después:
-
-```text
-U2_04_TCP_ClienteEco.java
-```
-
-Lo mismo ocurre con UDP:
-
-```text
-U2_07_UDP_Servidor.java
-```
-
-antes de:
-
-```text
-U2_08_UDP_Cliente.java
-```
-
----
-
-# Puertos utilizados
-
-Los ejemplos utilizan los siguientes puertos locales:
-
-| Servicio | Puerto |
+| Servicio | Puerto local |
 |---|---:|
 | TCP eco | `5000` |
 | TCP bidireccional | `5001` |
 | TCP multicliente | `5002` |
 | UDP | `6000` |
 | Envío de objetos TCP | `6001` |
-| RMI | `1099` |
+| Registro RMI | `1099` |
 | Integrador de redes | `7000` |
 
-Si un puerto está ocupado puede modificarse, siempre que cliente y servidor utilicen el mismo número.
+RMI asigna además un puerto TCP dinámico al objeto remoto. Si aparece `Address already in use`, revisa si sigue activa otra ejecución. Si cambias un puerto para experimentar, cliente y servidor deben coincidir. Los detalles de arranque, intercambio y cierre están en las guías de la [Unidad 2](unidad2/README.md).
 
----
+## Enfoque del repositorio
 
-# Organización Maven
+Los ejemplos buscan ser pequeños, progresivos, ejecutables, fáciles de localizar y suficientemente explicados. Complementan el material académico del curso y no lo reemplazan.
 
-El repositorio utiliza una estructura Maven multimódulo.
+La navegación adopta la organización por unidades y guías individuales del repositorio de referencia [Lenguaje de Programación III](https://github.com/lelyliliana/Curso-Lenguaje-de-Programacion-3), conservando los contenidos propios de este curso.
 
-El archivo:
-
-```text
-pom.xml
-```
-
-ubicado en la raíz contiene:
-
-```xml
-<modules>
-    <module>unidad1</module>
-    <module>unidad2</module>
-    <module>unidad3</module>
-</modules>
-```
-
-Cada unidad posee además su propio archivo:
-
-```text
-pom.xml
-```
-
-Esto permite compilar una unidad de forma independiente o construir todo el repositorio desde la raíz.
-
----
-
-# Tecnologías utilizadas
-
-- Java 21
-- Maven
-- Java Threads
-- `java.util.concurrent`
-- `java.net`
-- TCP
-- UDP
-- Java Serialization
-- Java RMI
-- Lambda Expressions
-- Stream API
-
----
-
-# Orden recomendado de estudio
-
-Para estudiantes que recorren el repositorio por primera vez se recomienda mantener el siguiente orden:
-
-```text
-Unidad 1
-   ↓
-Concurrencia
-   ↓
-Unidad 2
-   ↓
-Comunicación en red
-   ↓
-Unidad 3
-   ↓
-Programación funcional
-```
-
-Dentro de cada unidad los archivos también están numerados siguiendo un orden progresivo.
-
----
-
-# Nota académica
-
-Los ejemplos de este repositorio están diseñados con fines educativos y buscan complementar los contenidos del curso mediante implementaciones sencillas, ejecutables y modificables.
-
-Se recomienda no limitarse a ejecutar el código.
-
-Para comprender cada concepto es conveniente:
-
-- Leer el ejemplo.
-- Identificar las clases utilizadas.
-- Ejecutarlo varias veces.
-- Modificar valores.
-- Comparar resultados.
-- Analizar los cambios producidos.
-- Consultar el `README.md` correspondiente a cada unidad.
-
----
-
-# Autora
+## Autora
 
 **Leli Liliana Díaz Izquierdo**
 
-Docente investigadora  
-Facultad de Ingenierías  
+Docente investigadora
+
+Facultad de Ingenierías
+
 Corporación Universitaria Remington

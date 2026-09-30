@@ -1,10 +1,10 @@
-# Unidad 2 - Concurrencia y Network en Java
+# Unidad 2 – Concurrencia y Network
 
 Esta unidad presenta los fundamentos de programación en red con Java, integrando conceptos de cliente-servidor, direcciones IP, URL, sockets, TCP, UDP, serialización de objetos y RMI.
 
 Los ejemplos están organizados de forma progresiva: comienzan con elementos básicos de red y avanzan hasta aplicaciones cliente-servidor concurrentes y comunicación remota.
 
-## Objetivos
+## Objetivos de la unidad
 
 - Identificar los principales elementos de comunicación en red.
 - Consultar información de host y dirección IP mediante `InetAddress`.
@@ -19,11 +19,34 @@ Los ejemplos están organizados de forma progresiva: comienzan con elementos bá
 - Implementar un ejemplo básico de RMI.
 - Integrar concurrencia y comunicación en red en una aplicación.
 
+## Tecnologías o APIs utilizadas
+
+Java 21, Maven, `java.net` (TCP, UDP, URI y URL), `java.io` (texto y serialización), `java.rmi`, `Thread` y `Runnable`.
+
+## Ejemplos
+
+| Ejemplo | Tema |
+|---|---|
+| [U2_01](docs/ejemplo01/README.md) | InetAddress |
+| [U2_02](docs/ejemplo02/README.md) | Componentes de una URL |
+| [U2_03](docs/ejemplo03/README.md) | Servidor TCP tipo eco |
+| [U2_04](docs/ejemplo04/README.md) | Cliente TCP tipo eco |
+| [U2_05](docs/ejemplo05/README.md) | TCP bidireccional |
+| [U2_06](docs/ejemplo06/README.md) | Servidor TCP multicliente |
+| [U2_07](docs/ejemplo07/README.md) | Servidor UDP |
+| [U2_08](docs/ejemplo08/README.md) | Cliente UDP |
+| [U2_09](docs/ejemplo09/README.md) | Serialización de objetos |
+| [U2_10](docs/ejemplo10/README.md) | Envío de objetos por TCP |
+| [U2_11](docs/ejemplo11/README.md) | RMI |
+| [U2_12](docs/ejemplo12/README.md) | Ejercicio integrador de redes |
+
+Cada enlace abre la guía del ejemplo con acceso directo al archivo Java, ejecución, resultados y navegación al ejemplo siguiente. La documentación vive en `docs/`; los paquetes Java conservan su ubicación.
+
 ## Requisitos
 
 - Java JDK 21.
 - Apache Maven.
-- Un editor de código o IDE compatible con Java.
+- Un editor de código o IDE compatible con Java (opcional).
 
 ## Estructura del proyecto
 
@@ -31,6 +54,7 @@ Los ejemplos están organizados de forma progresiva: comienzan con elementos bá
 unidad2/
 ├── pom.xml
 ├── README.md
+├── docs/                         # README por ejemplo
 └── src/
     └── main/
         └── java/
@@ -51,7 +75,12 @@ unidad2/
                         └── U2_12_IntegradorRedes.java
 ```
 
-## Compilación del proyecto
+## Ejecución
+
+- Los ejemplos 03/04 (TCP) y 07/08 (UDP) requieren dos terminales: primero el servidor y después el cliente. Terminan tras un intercambio correcto.
+- Los ejemplos 05, 06, 10 y 12 crean servidor y clientes en una sola ejecución. La pausa de 500 ms facilita el arranque, pero no garantiza disponibilidad.
+- El ejemplo 11 crea su propio registro RMI y lo cierra al terminar correctamente; no requiere rmiregistry externo.
+- Si una ejecución queda esperando, usa `Ctrl+C`. UDP no configura timeout: una pérdida puede dejar al cliente esperando indefinidamente.
 
 Desde la carpeta raíz del repositorio:
 
@@ -65,311 +94,15 @@ También puede compilarse el proyecto completo:
 mvn compile
 ```
 
----
-
-## Ejemplo 1. InetAddress
-
-Archivo:
-
-```text
-U2_01_InetAddress.java
-```
-
-Este ejemplo utiliza la clase:
-
-```java
-java.net.InetAddress
-```
-
-para consultar información del equipo local.
-
-Se obtiene el host mediante:
-
-```java
-InetAddress equipoLocal =
-        InetAddress.getLocalHost();
-```
-
-Después pueden consultarse datos como:
-
-```java
-equipoLocal.getHostName();
-```
-
-y:
-
-```java
-equipoLocal.getHostAddress();
-```
-
-También se consulta:
-
-```text
-localhost
-```
-
-mediante:
-
-```java
-InetAddress.getByName("localhost");
-```
-
-### Ejecución
+Los comandos de esta unidad y de sus ejemplos se ejecutan desde la **raíz del repositorio**. Después de compilar, ejecuta una clase por su nombre completo, por ejemplo:
 
 ```bash
 java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_01_InetAddress
 ```
 
-### Observación
+También puedes ejecutar su método `main` desde el IDE. Consulta cada guía para los detalles y resultados esperados.
 
-La dirección obtenida para el equipo local depende de la configuración del sistema operativo.
-
-Por ejemplo, en algunos sistemas Linux el nombre local puede resolverse a:
-
-```text
-127.0.1.1
-```
-
-mientras que `localhost` normalmente corresponde a:
-
-```text
-127.0.0.1
-```
-
----
-
-## Ejemplo 2. Componentes de una URL
-
-Archivo:
-
-```text
-U2_02_URL.java
-```
-
-Este ejemplo analiza diferentes partes de una URL.
-
-Se utiliza una dirección similar a:
-
-```text
-https://www.ejemplo.com:443/cursos/java?unidad=2#network
-```
-
-y se consultan componentes como:
-
-- Protocolo.
-- Host.
-- Puerto.
-- Puerto por defecto.
-- Ruta.
-- Consulta.
-- Referencia.
-
-La URL se obtiene desde un objeto `URI`:
-
-```java
-URL direccion = URI.create(
-        "https://www.ejemplo.com:443/cursos/java?unidad=2#network"
-).toURL();
-```
-
-### Ejecución
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_02_URL
-```
-
-### Salida aproximada
-
-```text
-COMPONENTES DE UNA URL
-----------------------
-Protocolo: https
-Host: www.ejemplo.com
-Puerto: 443
-Puerto por defecto: 443
-Ruta: /cursos/java
-Consulta: unidad=2
-Referencia: network
-```
-
----
-
-## Ejemplo 3. Servidor TCP tipo eco
-
-Archivo:
-
-```text
-U2_03_TCP_ServidorEco.java
-```
-
-Este ejemplo crea un servidor TCP básico.
-
-La clase principal utilizada es:
-
-```java
-ServerSocket
-```
-
-El servidor queda escuchando en un puerto:
-
-```java
-ServerSocket servidor =
-        new ServerSocket(5000);
-```
-
-Después espera una conexión:
-
-```java
-Socket cliente =
-        servidor.accept();
-```
-
-`accept()` bloquea el programa hasta que un cliente se conecte.
-
-Una vez establecida la conexión, se utilizan flujos para leer y escribir datos.
-
-### Ejecución
-
-Este ejemplo debe ejecutarse antes que el cliente:
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_03_TCP_ServidorEco
-```
-
-El servidor permanecerá esperando una conexión.
-
----
-
-## Ejemplo 4. Cliente TCP tipo eco
-
-Archivo:
-
-```text
-U2_04_TCP_ClienteEco.java
-```
-
-Este ejemplo se conecta al servidor anterior mediante:
-
-```java
-Socket socket =
-        new Socket(
-                "localhost",
-                5000
-        );
-```
-
-El cliente envía un mensaje y espera una respuesta.
-
-### Ejecución
-
-Primero debe estar ejecutándose:
-
-```text
-U2_03_TCP_ServidorEco
-```
-
-Después se ejecuta:
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_04_TCP_ClienteEco
-```
-
-### Flujo de comunicación
-
-```text
-Cliente
-   |
-   | mensaje
-   v
-Servidor
-   |
-   | respuesta
-   v
-Cliente
-```
-
----
-
-## Ejemplo 5. TCP bidireccional
-
-Archivo:
-
-```text
-U2_05_TCP_Bidireccional.java
-```
-
-Este ejemplo permite intercambiar varios mensajes utilizando una sola conexión TCP.
-
-El servidor permanece leyendo mensajes mediante:
-
-```java
-while ((mensaje = entrada.readLine()) != null) {
-```
-
-Cada mensaje recibe una respuesta.
-
-Cuando llega:
-
-```text
-salir
-```
-
-la comunicación termina.
-
-En este ejemplo cliente y servidor se ejecutan dentro de hilos diferentes para facilitar la demostración desde una sola clase.
-
-### Ejecución
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_05_TCP_Bidireccional
-```
-
----
-
-## Ejemplo 6. Servidor TCP multicliente
-
-Archivo:
-
-```text
-U2_06_TCP_Multicliente.java
-```
-
-Este ejemplo muestra cómo un servidor puede atender varios clientes.
-
-Por cada conexión aceptada se crea un nuevo hilo:
-
-```java
-Thread hiloCliente =
-        new Thread(
-                new ManejadorCliente(cliente),
-                "Cliente-" + i
-        );
-```
-
-Cada cliente puede ser atendido independientemente.
-
-Esto integra conceptos de:
-
-- Sockets.
-- TCP.
-- Cliente-servidor.
-- Concurrencia.
-- `Runnable`.
-- Hilos.
-
-### Ejecución
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_06_TCP_Multicliente
-```
-
-### Importante
-
-El orden de salida puede variar entre ejecuciones porque los clientes se atienden concurrentemente.
-
----
-
-# Comunicación UDP
+## Comunicación UDP
 
 UDP utiliza datagramas en lugar de establecer una conexión permanente.
 
@@ -387,108 +120,21 @@ DatagramPacket
 
 ---
 
-## Ejemplo 7. Servidor UDP
-
-Archivo:
-
-```text
-U2_07_UDP_Servidor.java
-```
-
-El servidor crea:
-
-```java
-DatagramSocket socket =
-        new DatagramSocket(6000);
-```
-
-Después prepara un paquete de recepción:
-
-```java
-DatagramPacket paqueteEntrada =
-        new DatagramPacket(
-                buffer,
-                buffer.length
-        );
-```
-
-y espera mediante:
-
-```java
-socket.receive(paqueteEntrada);
-```
-
-Después responde al mismo host y puerto desde donde llegó el datagrama.
-
-### Ejecución
-
-Debe ejecutarse antes que el cliente:
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_07_UDP_Servidor
-```
-
----
-
-## Ejemplo 8. Cliente UDP
-
-Archivo:
-
-```text
-U2_08_UDP_Cliente.java
-```
-
-El cliente construye un datagrama:
-
-```java
-DatagramPacket paqueteSalida =
-        new DatagramPacket(
-                datos,
-                datos.length,
-                direccionServidor,
-                PUERTO
-        );
-```
-
-y lo envía mediante:
-
-```java
-socket.send(paqueteSalida);
-```
-
-Después espera otro datagrama como respuesta.
-
-### Ejecución
-
-Primero:
-
-```text
-U2_07_UDP_Servidor
-```
-
-Después:
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_08_UDP_Cliente
-```
-
----
-
-# TCP vs UDP
+## TCP vs UDP
 
 | Característica | TCP | UDP |
 |---|---|---|
 | Orientado a conexión | Sí | No |
-| Garantiza entrega | Sí | No |
+| Entrega | Flujo fiable y ordenado mientras la conexión funciona; pueden ocurrir fallos | Sin garantía de entrega ni reintentos automáticos |
 | Mantiene el orden | Sí | No necesariamente |
-| Control de errores | Mayor | Menor |
+| Recuperación de pérdidas | Retransmisión integrada | La aplicación debe gestionarla si la necesita |
 | Sobrecarga | Mayor | Menor |
 | Forma de comunicación | Flujo | Datagramas |
 | Clases principales en Java | `Socket`, `ServerSocket` | `DatagramSocket`, `DatagramPacket` |
 
 ---
 
-# Serialización
+## Serialización
 
 Serializar consiste en convertir el estado de un objeto en una secuencia de bytes.
 
@@ -506,104 +152,7 @@ Serializable
 
 ---
 
-## Ejemplo 9. Serialización de objetos
-
-Archivo:
-
-```text
-U2_09_Serializacion.java
-```
-
-La clase `Estudiante` implementa:
-
-```java
-Serializable
-```
-
-El objeto se guarda mediante:
-
-```java
-ObjectOutputStream
-```
-
-y:
-
-```java
-writeObject()
-```
-
-Por ejemplo:
-
-```java
-salida.writeObject(estudiante);
-```
-
-Después se recupera mediante:
-
-```java
-ObjectInputStream
-```
-
-y:
-
-```java
-readObject()
-```
-
-### Ejecución
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_09_Serializacion
-```
-
-Durante la ejecución se genera el archivo:
-
-```text
-estudiante.dat
-```
-
----
-
-## Ejemplo 10. Envío de objetos por TCP
-
-Archivo:
-
-```text
-U2_10_EnvioObjetosTCP.java
-```
-
-Este ejemplo integra:
-
-- TCP.
-- Sockets.
-- Serialización.
-- `ObjectInputStream`.
-- `ObjectOutputStream`.
-
-El cliente envía un objeto:
-
-```java
-salida.writeObject(estudiante);
-```
-
-El servidor lo recupera mediante:
-
-```java
-Estudiante estudiante =
-        (Estudiante) entrada.readObject();
-```
-
-Luego el servidor devuelve una confirmación al cliente.
-
-### Ejecución
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_10_EnvioObjetosTCP
-```
-
----
-
-# RMI
+## RMI
 
 RMI significa:
 
@@ -625,188 +174,59 @@ Los elementos principales son:
 
 ---
 
-## Ejemplo 11. RMI
+## Conceptos principales
 
-Archivo:
-
-```text
-U2_11_RMI.java
-```
-
-La interfaz remota extiende:
-
-```java
-Remote
-```
-
-Ejemplo:
-
-```java
-public interface ServicioSaludo
-        extends Remote {
-```
-
-Los métodos remotos deben poder lanzar:
-
-```java
-RemoteException
-```
-
-La implementación extiende:
-
-```java
-UnicastRemoteObject
-```
-
-El registro se crea mediante:
-
-```java
-LocateRegistry.createRegistry(1099);
-```
-
-El servicio se publica con:
-
-```java
-registro.rebind(
-        NOMBRE_SERVICIO,
-        servicio
-);
-```
-
-El cliente obtiene la referencia mediante:
-
-```java
-registroCliente.lookup(
-        NOMBRE_SERVICIO
-);
-```
-
-y después invoca el método como si fuera un objeto local.
-
-### Ejecución
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_11_RMI
-```
-
----
-
-## Ejemplo 12. Ejercicio integrador de redes
-
-Archivo:
-
-```text
-U2_12_IntegradorRedes.java
-```
-
-Este ejemplo integra:
-
-- `ServerSocket`.
-- `Socket`.
-- TCP.
-- Varios clientes.
-- Hilos.
-- `Runnable`.
-- Procesamiento de solicitudes.
-- Respuestas del servidor.
-
-El servidor acepta varias conexiones:
-
-```java
-Socket socket =
-        serverSocket.accept();
-```
-
-y crea un hilo para cada cliente:
-
-```java
-Thread hiloCliente =
-        new Thread(
-                new AtenderCliente(socket),
-                "Atencion-" + i
-        );
-```
-
-Cada cliente envía:
-
-- Nombre.
-- Tipo de operación.
-
-El servidor procesa operaciones como:
-
-```text
-saludo
-hora
-estado
-```
-
-mediante una expresión `switch`.
-
-### Ejecución
-
-```bash
-java -cp unidad2/target/classes com.lelyliliana.unidad2.U2_12_IntegradorRedes
-```
-
-### Importante
-
-El orden de atención puede variar porque existen varios hilos ejecutándose concurrentemente.
-
----
-
-# Conceptos principales de la unidad
-
-## Host
+### Host
 
 Equipo conectado a una red e identificado mediante un nombre o dirección.
 
-## Dirección IP
+### Dirección IP
 
 Identificador utilizado para localizar un dispositivo dentro de una red IP.
 
-## Puerto
+### Puerto
 
 Número utilizado para identificar una aplicación o servicio dentro de un equipo.
 
-## Socket
+### Socket
 
 Extremo de una comunicación entre dos aplicaciones.
 
-## Cliente
+### Cliente
 
 Aplicación que solicita un servicio.
 
-## Servidor
+### Servidor
 
 Aplicación que espera solicitudes y proporciona servicios.
 
-## Protocolo
+### Protocolo
 
 Conjunto de reglas utilizadas para realizar una comunicación.
 
-## TCP
+### TCP
 
 Protocolo orientado a conexión que proporciona comunicación confiable y ordenada.
 
-## UDP
+### UDP
 
 Protocolo sin conexión que utiliza datagramas y no garantiza entrega ni orden.
 
-## Serialización
+### Serialización
 
 Conversión de un objeto en una secuencia de bytes.
 
-## Deserialización
+### Deserialización
 
 Reconstrucción de un objeto a partir de una secuencia de bytes.
 
-## RMI
+### RMI
 
 Mecanismo de Java que permite invocar métodos de objetos remotos.
 
 ---
 
-# Clases principales utilizadas
+## Clases principales utilizadas
 
 | Clase o interfaz | Propósito |
 |---|---|
@@ -829,7 +249,7 @@ Mecanismo de Java que permite invocar métodos de objetos remotos.
 
 ---
 
-# Puertos utilizados en los ejemplos
+## Puertos utilizados en los ejemplos
 
 | Ejemplo | Puerto |
 |---|---:|
@@ -838,14 +258,14 @@ Mecanismo de Java que permite invocar métodos de objetos remotos.
 | TCP multicliente | `5002` |
 | UDP | `6000` |
 | Objetos TCP | `6001` |
-| RMI | `1099` |
+| RMI | `1099` (registro) y un puerto TCP dinámico para el objeto remoto |
 | Integrador | `7000` |
 
 Si alguno de estos puertos está ocupado en el equipo, puede sustituirse por otro puerto disponible siempre que cliente y servidor utilicen el mismo valor.
 
 ---
 
-# Orden recomendado de estudio
+## Orden recomendado de estudio
 
 1. `InetAddress`.
 2. Componentes de una URL.
@@ -862,7 +282,7 @@ Si alguno de estos puertos está ocupado en el equipo, puede sustituirse por otr
 
 ---
 
-# Recomendaciones
+## Recomendaciones
 
 En los ejemplos cliente-servidor que utilizan archivos diferentes, debe ejecutarse primero el servidor.
 
@@ -899,3 +319,5 @@ Address already in use
 significa que el puerto está siendo utilizado por otro proceso o quedó otra ejecución activa.
 
 La comunicación mediante `localhost` permite probar cliente y servidor en una misma computadora. Para realizar pruebas entre dos equipos diferentes, debe utilizarse la dirección IP del equipo donde se ejecuta el servidor y deben revisarse las reglas de red y firewall correspondientes.
+
+[← Volver al inicio del repositorio](../README.md)

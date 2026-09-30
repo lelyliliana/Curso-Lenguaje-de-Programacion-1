@@ -1,10 +1,10 @@
-# Unidad 1 - Concurrencia en Java
+# Unidad 1 – Concurrencia
 
 Esta unidad presenta los fundamentos de la programación concurrente en Java mediante ejemplos progresivos sobre creación de hilos, ciclo de vida, condiciones de carrera, exclusión mutua y mecanismos de sincronización.
 
 Los ejemplos están organizados para avanzar desde la creación básica de hilos hasta un caso integrador con recursos compartidos.
 
-## Objetivos
+## Objetivos de la unidad
 
 - Comprender qué es un hilo y cómo se relaciona con un proceso.
 - Crear hilos mediante la clase `Thread`.
@@ -19,11 +19,34 @@ Los ejemplos están organizados para avanzar desde la creación básica de hilos
 - Utilizar `ReentrantLock`.
 - Integrar los principales mecanismos de concurrencia en una aplicación sencilla.
 
+## Tecnologías o APIs utilizadas
+
+Java 21, Maven, `Thread`, `Runnable`, monitores (`synchronized`, `wait()`, `notifyAll()`) y `java.util.concurrent.locks` (`Lock`, `ReentrantLock`).
+
+## Ejemplos
+
+| Ejemplo | Tema |
+|---|---|
+| [U1_01](docs/ejemplo01/README.md) | Hilo básico con Thread |
+| [U1_02](docs/ejemplo02/README.md) | Thread vs Runnable |
+| [U1_03](docs/ejemplo03/README.md) | start() vs run() |
+| [U1_04](docs/ejemplo04/README.md) | Uso de sleep() |
+| [U1_05](docs/ejemplo05/README.md) | Uso de join() |
+| [U1_06](docs/ejemplo06/README.md) | Estados de un hilo |
+| [U1_07](docs/ejemplo07/README.md) | Condición de carrera |
+| [U1_08](docs/ejemplo08/README.md) | Método synchronized |
+| [U1_09](docs/ejemplo09/README.md) | Bloque synchronized |
+| [U1_10](docs/ejemplo10/README.md) | wait() y notifyAll() |
+| [U1_11](docs/ejemplo11/README.md) | ReentrantLock |
+| [U1_12](docs/ejemplo12/README.md) | Ejercicio integrador de concurrencia |
+
+Cada enlace abre la guía del ejemplo con acceso directo al archivo Java, ejecución, resultados y navegación al ejemplo siguiente. La documentación vive en `docs/`; los paquetes Java conservan su ubicación.
+
 ## Requisitos
 
 - Java JDK 21.
 - Apache Maven.
-- Un editor de código o IDE compatible con Java.
+- Un editor de código o IDE compatible con Java (opcional).
 
 ## Estructura del proyecto
 
@@ -31,6 +54,7 @@ Los ejemplos están organizados para avanzar desde la creación básica de hilos
 unidad1/
 ├── pom.xml
 ├── README.md
+├── docs/                         # README por ejemplo
 └── src/
     └── main/
         └── java/
@@ -51,7 +75,7 @@ unidad1/
                         └── U1_12_IntegradorConcurrencia.java
 ```
 
-## Compilación del proyecto
+## Ejecución
 
 Desde la carpeta raíz del repositorio:
 
@@ -65,700 +89,51 @@ También puede compilarse todo el repositorio multimódulo desde la raíz:
 mvn compile
 ```
 
----
-
-## Ejemplo 1. Hilo básico con Thread
-
-Archivo:
-
-```text
-U1_01_HiloBasico.java
-```
-
-Este ejemplo presenta una de las formas más directas de crear un hilo en Java: extender la clase `Thread`.
-
-La clase redefine el método:
-
-```java
-@Override
-public void run() {
-    // tarea del hilo
-}
-```
-
-Luego se crean dos objetos:
-
-```java
-U1_01_HiloBasico hilo1 =
-        new U1_01_HiloBasico("Hilo A");
-
-U1_01_HiloBasico hilo2 =
-        new U1_01_HiloBasico("Hilo B");
-```
-
-Los hilos se inician mediante:
-
-```java
-hilo1.start();
-hilo2.start();
-```
-
-`start()` solicita a la JVM que inicie un nuevo hilo de ejecución y posteriormente invoque su método `run()`.
-
-### Ejecución
+Los comandos de esta unidad y de sus ejemplos se ejecutan desde la **raíz del repositorio**. Después de compilar, ejecuta una clase por su nombre completo, por ejemplo:
 
 ```bash
 java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_01_HiloBasico
 ```
 
-### Observación
+También puedes ejecutar su método `main` desde el IDE. Consulta cada guía para los detalles y resultados esperados.
 
-El orden de las iteraciones puede variar entre ejecuciones porque los hilos se ejecutan de manera concurrente.
+## Conceptos principales
 
----
-
-## Ejemplo 2. Thread vs Runnable
-
-Archivo:
-
-```text
-U1_02_ThreadVsRunnable.java
-```
-
-Este ejemplo compara dos formas de definir tareas concurrentes en Java.
-
-### Extendiendo Thread
-
-```java
-static class HiloConThread extends Thread {
-```
-
-La clase hereda directamente de `Thread` y redefine `run()`.
-
-### Implementando Runnable
-
-```java
-static class TareaConRunnable implements Runnable {
-```
-
-La clase define la tarea, pero no representa por sí misma un hilo.
-
-Posteriormente se crea el hilo:
-
-```java
-Thread hilo2 =
-        new Thread(
-                new TareaConRunnable("Hilo B")
-        );
-```
-
-`Runnable` permite separar la tarea que se desea ejecutar del hilo que la ejecutará.
-
-Además, una clase que implementa `Runnable` puede seguir heredando de otra clase si fuera necesario.
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_02_ThreadVsRunnable
-```
-
----
-
-## Ejemplo 3. start() vs run()
-
-Archivo:
-
-```text
-U1_03_StartVsRun.java
-```
-
-Este ejemplo muestra una diferencia fundamental.
-
-Cuando se invoca directamente:
-
-```java
-hilo.run();
-```
-
-no se crea un nuevo hilo.
-
-El método se ejecuta como una llamada normal dentro del hilo actual.
-
-Por esta razón, al mostrar:
-
-```java
-Thread.currentThread().getName()
-```
-
-la ejecución mediante `run()` aparecerá asociada normalmente al hilo:
-
-```text
-main
-```
-
-En cambio:
-
-```java
-hilo.start();
-```
-
-inicia un nuevo hilo de ejecución.
-
-En ese caso pueden aparecer nombres como:
-
-```text
-Thread-0
-Thread-1
-```
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_03_StartVsRun
-```
-
----
-
-## Ejemplo 4. Uso de sleep()
-
-Archivo:
-
-```text
-U1_04_Sleep.java
-```
-
-El método:
-
-```java
-Thread.sleep(500);
-```
-
-pausa temporalmente el hilo que ejecuta esa instrucción.
-
-En el ejemplo, cada hilo realiza una iteración y después espera aproximadamente medio segundo antes de continuar.
-
-El método puede lanzar:
-
-```java
-InterruptedException
-```
-
-Por esta razón se maneja la excepción y se conserva el estado de interrupción mediante:
-
-```java
-Thread.currentThread().interrupt();
-```
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_04_Sleep
-```
-
-### Observación
-
-Los mensajes de `Hilo-A` y `Hilo-B` pueden aparecer intercalados.
-
----
-
-## Ejemplo 5. Uso de join()
-
-Archivo:
-
-```text
-U1_05_Join.java
-```
-
-`join()` permite que un hilo espere hasta que otro termine.
-
-En el ejemplo:
-
-```java
-hilo1.start();
-hilo2.start();
-```
-
-los dos hilos comienzan su ejecución.
-
-Después el hilo principal ejecuta:
-
-```java
-hilo1.join();
-hilo2.join();
-```
-
-Esto hace que el hilo principal espere a que ambos finalicen.
-
-Solo entonces continúa y muestra:
-
-```text
-Los dos hilos terminaron. Continúa el hilo principal.
-```
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_05_Join
-```
-
----
-
-## Ejemplo 6. Estados de un hilo
-
-Archivo:
-
-```text
-U1_06_EstadosHilo.java
-```
-
-Java permite consultar el estado de un hilo mediante:
-
-```java
-hilo.getState();
-```
-
-En el ejemplo se observan estados como:
-
-### NEW
-
-El hilo fue creado, pero todavía no se ha iniciado.
-
-### RUNNABLE
-
-El hilo está disponible para ser ejecutado o se encuentra en ejecución.
-
-### TIMED_WAITING
-
-El hilo espera durante un tiempo determinado, por ejemplo, debido a:
-
-```java
-Thread.sleep(...)
-```
-
-### TERMINATED
-
-El hilo terminó su ejecución.
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_06_EstadosHilo
-```
-
-### Salida aproximada
-
-```text
-Estado al crear el hilo: NEW
-Estado después de start(): RUNNABLE
-Dentro del hilo. Estado actual: RUNNABLE
-Estado mientras está en sleep(): TIMED_WAITING
-Estado después de terminar: TERMINATED
-```
-
-El estado observado inmediatamente después de `start()` puede variar dependiendo de la planificación de la JVM.
-
----
-
-## Ejemplo 7. Condición de carrera
-
-Archivo:
-
-```text
-U1_07_CondicionCarrera.java
-```
-
-Este ejemplo introduce uno de los problemas más importantes de la programación concurrente.
-
-Dos hilos comparten el mismo objeto:
-
-```java
-Contador contador = new Contador();
-```
-
-y ambos ejecutan repetidamente:
-
-```java
-contador.incrementar();
-```
-
-El método contiene:
-
-```java
-valor++;
-```
-
-Aunque esta instrucción parece una sola operación, implica varios pasos internos:
-
-1. Leer el valor.
-2. Incrementarlo.
-3. Guardar el nuevo valor.
-
-Dos hilos pueden ejecutar esos pasos al mismo tiempo y producir una pérdida de actualizaciones.
-
-El resultado esperado es:
-
-```text
-200000
-```
-
-pero el valor obtenido puede ser menor.
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_07_CondicionCarrera
-```
-
-### Importante
-
-El resultado no determinista es precisamente parte del ejemplo.
-
-En algunas ejecuciones puede coincidir con el valor esperado y en otras no.
-
----
-
-## Ejemplo 8. Método synchronized
-
-Archivo:
-
-```text
-U1_08_SynchronizedMetodo.java
-```
-
-Este ejemplo corrige la condición de carrera anterior.
-
-El método:
-
-```java
-public synchronized void incrementar() {
-    valor++;
-}
-```
-
-solo puede ser ejecutado por un hilo a la vez sobre la misma instancia del objeto.
-
-Cuando un hilo entra al método sincronizado obtiene el bloqueo asociado al objeto.
-
-Los demás hilos deben esperar hasta que ese bloqueo sea liberado.
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_08_SynchronizedMetodo
-```
-
-### Salida esperada
-
-```text
-Valor esperado: 200000
-Valor obtenido: 200000
-```
-
----
-
-## Ejemplo 9. Bloque synchronized
-
-Archivo:
-
-```text
-U1_09_SynchronizedBloque.java
-```
-
-No siempre es necesario sincronizar un método completo.
-
-Puede protegerse únicamente la sección crítica:
-
-```java
-synchronized (this) {
-    valor++;
-}
-```
-
-El resto del método puede ejecutarse sin mantener el bloqueo.
-
-Esta estrategia permite reducir el tiempo durante el cual otros hilos deben esperar.
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_09_SynchronizedBloque
-```
-
-### Salida esperada
-
-```text
-Valor esperado: 200000
-Valor obtenido: 200000
-```
-
----
-
-## Ejemplo 10. wait() y notifyAll()
-
-Archivo:
-
-```text
-U1_10_WaitNotify.java
-```
-
-Este ejemplo presenta comunicación y coordinación entre hilos mediante un esquema productor-consumidor sencillo.
-
-El consumidor comprueba si existe un mensaje disponible:
-
-```java
-while (!disponible) {
-    wait();
-}
-```
-
-Si todavía no existe, ejecuta:
-
-```java
-wait();
-```
-
-`wait()`:
-
-- Suspende el hilo.
-- Libera el bloqueo del objeto.
-- Permite que otro hilo pueda entrar al método sincronizado.
-
-El productor guarda el mensaje y ejecuta:
-
-```java
-notifyAll();
-```
-
-`notifyAll()` despierta a los hilos que esperan sobre el mismo objeto.
-
-Cuando despiertan, deben volver a comprobar la condición.
-
-Por esta razón se utiliza:
-
-```java
-while
-```
-
-en lugar de:
-
-```java
-if
-```
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_10_WaitNotify
-```
-
-### Salida aproximada
-
-```text
-Productor envió: Mensaje enviado entre hilos
-Consumidor recibió: Mensaje enviado entre hilos
-Proceso terminado.
-```
-
----
-
-## Ejemplo 11. ReentrantLock
-
-Archivo:
-
-```text
-U1_11_ReentrantLock.java
-```
-
-Además de `synchronized`, Java dispone de mecanismos explícitos de bloqueo dentro del paquete:
-
-```java
-java.util.concurrent.locks
-```
-
-El ejemplo utiliza:
-
-```java
-private final Lock lock = new ReentrantLock();
-```
-
-Antes de entrar a la sección crítica:
-
-```java
-lock.lock();
-```
-
-Después de terminar:
-
-```java
-lock.unlock();
-```
-
-La liberación del bloqueo se realiza dentro de un bloque `finally`:
-
-```java
-lock.lock();
-
-try {
-    valor++;
-} finally {
-    lock.unlock();
-}
-```
-
-Esto garantiza que el bloqueo sea liberado incluso si ocurre una excepción durante la operación.
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_11_ReentrantLock
-```
-
-### Salida esperada
-
-```text
-Valor esperado: 200000
-Valor obtenido: 200000
-```
-
----
-
-## Ejemplo 12. Ejercicio integrador de concurrencia
-
-Archivo:
-
-```text
-U1_12_IntegradorConcurrencia.java
-```
-
-Este ejemplo representa una cuenta bancaria compartida por dos clientes.
-
-La cuenta comienza con:
-
-```text
-$1000
-```
-
-Los clientes intentan retirar:
-
-```text
-Cliente A -> $700
-Cliente B -> $500
-```
-
-Ambos clientes utilizan el mismo objeto:
-
-```java
-CuentaBancaria cuenta =
-        new CuentaBancaria(1000);
-```
-
-Cada cliente implementa `Runnable`:
-
-```java
-static class Cliente implements Runnable
-```
-
-y se ejecuta en su propio hilo.
-
-La operación de retiro se protege mediante:
-
-```java
-public synchronized void retirar(...)
-```
-
-De esta manera:
-
-1. Un cliente obtiene acceso al saldo.
-2. Comprueba si existen fondos.
-3. Realiza el retiro.
-4. Libera el acceso.
-5. El siguiente cliente puede comprobar el saldo actualizado.
-
-Los dos hilos se inician mediante:
-
-```java
-cliente1.start();
-cliente2.start();
-```
-
-Después:
-
-```java
-cliente1.join();
-cliente2.join();
-```
-
-garantiza que el hilo principal espere antes de mostrar el saldo final.
-
-### Ejecución
-
-```bash
-java -cp unidad1/target/classes com.lelyliliana.unidad1.U1_12_IntegradorConcurrencia
-```
-
-### Importante
-
-El orden de los clientes puede variar.
-
-Por ejemplo, si `Cliente A` obtiene primero el bloqueo:
-
-```text
-Cliente A retira $700
-Cliente B no puede retirar $500
-Saldo final: $300
-```
-
-Si `Cliente B` obtiene primero el bloqueo:
-
-```text
-Cliente B retira $500
-Cliente A no puede retirar $700
-Saldo final: $500
-```
-
-Ambos resultados son válidos porque dependen del orden de planificación de los hilos.
-
-Lo importante es que el saldo nunca quede en un estado inconsistente.
-
----
-
-# Conceptos principales de la unidad
-
-## Proceso
+### Proceso
 
 Programa que se encuentra en ejecución y dispone de sus propios recursos.
 
-## Hilo
+### Hilo
 
 Camino de ejecución dentro de un proceso.
 
 Los hilos de un mismo proceso pueden compartir recursos y memoria.
 
-## Concurrencia
+### Concurrencia
 
 Permite que varias tareas progresen durante un mismo intervalo de tiempo.
 
 No implica necesariamente que todas estén ejecutándose exactamente al mismo instante.
 
-## Paralelismo
+### Paralelismo
 
 Implica que varias tareas se ejecutan realmente al mismo tiempo utilizando diferentes recursos de procesamiento.
 
-## Sección crítica
+### Sección crítica
 
 Parte del programa que accede a un recurso compartido y que puede producir inconsistencias si varios hilos la ejecutan simultáneamente.
 
-## Condición de carrera
+### Condición de carrera
 
 Situación en la que el resultado depende del orden o del momento exacto en que diferentes hilos acceden a datos compartidos.
 
-## Exclusión mutua
+### Exclusión mutua
 
 Mecanismo que garantiza que solamente un hilo pueda ejecutar una sección crítica en un momento determinado.
 
 ---
 
-# Métodos y mecanismos utilizados
+## Métodos y mecanismos utilizados
 
 | Elemento | Propósito |
 |---|---|
@@ -771,7 +146,6 @@ Mecanismo que garantiza que solamente un hilo pueda ejecutar una sección críti
 | `getState()` | Permite consultar el estado de un hilo. |
 | `synchronized` | Proporciona exclusión mutua mediante el bloqueo de un objeto. |
 | `wait()` | Suspende un hilo y libera temporalmente el bloqueo del objeto. |
-| `notify()` | Despierta uno de los hilos que esperan sobre un objeto. |
 | `notifyAll()` | Despierta todos los hilos que esperan sobre un objeto. |
 | `ReentrantLock` | Proporciona control explícito sobre un bloqueo. |
 | `lock()` | Adquiere un bloqueo explícito. |
@@ -779,7 +153,9 @@ Mecanismo que garantiza que solamente un hilo pueda ejecutar una sección críti
 
 ---
 
-# Estados de Thread utilizados
+## Estados del ciclo de vida de Thread
+
+La tabla incluye los seis estados posibles. El ejemplo 06 no los fuerza todos: las consultas intermedias dependen de la planificación.
 
 | Estado | Descripción |
 |---|---|
@@ -792,7 +168,7 @@ Mecanismo que garantiza que solamente un hilo pueda ejecutar una sección críti
 
 ---
 
-# Orden recomendado de estudio
+## Orden recomendado de estudio
 
 1. Hilo básico con `Thread`.
 2. Diferencia entre `Thread` y `Runnable`.
@@ -809,7 +185,7 @@ Mecanismo que garantiza que solamente un hilo pueda ejecutar una sección críti
 
 ---
 
-# Recomendaciones
+## Recomendaciones
 
 La salida de los programas concurrentes no siempre tendrá el mismo orden.
 
@@ -827,3 +203,5 @@ Por esta razón, al estudiar los ejemplos es recomendable:
 - Comparar los resultados antes y después de utilizar mecanismos de sincronización.
 
 La sincronización debe utilizarse cuando realmente exista acceso concurrente a recursos compartidos. Sincronizar código innecesariamente puede reducir el rendimiento de una aplicación.
+
+[← Volver al inicio del repositorio](../README.md)
