@@ -141,4 +141,3 @@ Docente investigadora
 
 Facultad de Ingenierías
 
-Corporación Universitaria Remington
